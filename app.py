@@ -29,21 +29,36 @@ This application analyzes a well-known heart disease dataset and allows users to
 
 ### 📌 Features:
 
-| Feature | Description |
-|--------|-------------|
-| `age` | Age of the patient (in years) |
-| `sex` | Sex (1 = male, 0 = female) |
-| `cp` | Chest pain type: <br> - 0: Typical angina <br> - 1: Atypical angina <br> - 2: Non-anginal pain <br> - 3: Asymptomatic |
-| `trestbps` | Resting blood pressure (in mm Hg on admission to the hospital) |
-| `chol` | Serum cholesterol in mg/dl |
-| `fbs` | Fasting blood sugar > 120 mg/dl (1 = true; 0 = false) |
-| `restecg` | Resting electrocardiographic results: <br> - 0: Normal <br> - 1: ST-T wave abnormality <br> - 2: Probable/definite left ventricular hypertrophy |
-| `thalach` | Maximum heart rate achieved |
-| `exang` | Exercise-induced angina (1 = yes; 0 = no) |
-| `oldpeak` | ST depression induced by exercise relative to rest |
-| `slope` | The slope of the peak exercise ST segment: <br> - 0: Upsloping <br> - 1: Flat <br> - 2: Downsloping |
-| `ca` | Number of major vessels (0–3) colored by fluoroscopy |
-| `thal` | Thalassemia: <br> - 0: Normal <br> - 1: Fixed defect <br> - 2: Reversible defect |
+---
+
+### 📌 Features Explained:
+
+- **`age`**: Age of the patient (in years)
+- **`sex`**: Gender (1 = male, 0 = female)
+- **`cp`**: Chest pain type:
+  - 0 = Typical angina  
+  - 1 = Atypical angina  
+  - 2 = Non-anginal pain  
+  - 3 = Asymptomatic
+- **`trestbps`**: Resting blood pressure (in mm Hg)
+- **`chol`**: Serum cholesterol (in mg/dl)
+- **`fbs`**: Fasting blood sugar > 120 mg/dl? (1 = yes, 0 = no)
+- **`restecg`**: Resting electrocardiographic results:
+  - 0 = Normal  
+  - 1 = ST-T wave abnormality  
+  - 2 = Left ventricular hypertrophy
+- **`thalach`**: Maximum heart rate achieved during exercise
+- **`exang`**: Exercise-induced angina (1 = yes, 0 = no)
+- **`oldpeak`**: ST depression induced by exercise compared to rest
+- **`slope`**: Slope of the ST segment during exercise:
+  - 0 = Upsloping  
+  - 1 = Flat  
+  - 2 = Downsloping
+- **`ca`**: Number of major vessels (0–3) colored by fluoroscopy
+- **`thal`**: Type of thalassemia:
+  - 1 = Normal  
+  - 2 = Fixed defect  
+  - 3 = Reversible defect
 
 ---
 
