@@ -21,6 +21,37 @@ warnings.filterwarnings("ignore")
 st.set_page_config(page_title="Heart Disease Predictor", layout="wide")
 st.title("💓 Heart Disease Prediction App")
 
+st.markdown("""
+This application analyzes a well-known heart disease dataset and allows users to:
+- 📊 Explore patient features (age, cholesterol, chest pain type, etc.)
+- 🧠 Train different machine learning models
+- 🩺 Predict whether a person is likely to have heart disease based on input data
+
+### 📌 Features:
+
+| Feature | Description |
+|--------|-------------|
+| `age` | Age of the patient (in years) |
+| `sex` | Sex (1 = male, 0 = female) |
+| `cp` | Chest pain type: <br> - 0: Typical angina <br> - 1: Atypical angina <br> - 2: Non-anginal pain <br> - 3: Asymptomatic |
+| `trestbps` | Resting blood pressure (in mm Hg on admission to the hospital) |
+| `chol` | Serum cholesterol in mg/dl |
+| `fbs` | Fasting blood sugar > 120 mg/dl (1 = true; 0 = false) |
+| `restecg` | Resting electrocardiographic results: <br> - 0: Normal <br> - 1: ST-T wave abnormality <br> - 2: Probable/definite left ventricular hypertrophy |
+| `thalach` | Maximum heart rate achieved |
+| `exang` | Exercise-induced angina (1 = yes; 0 = no) |
+| `oldpeak` | ST depression induced by exercise relative to rest |
+| `slope` | The slope of the peak exercise ST segment: <br> - 0: Upsloping <br> - 1: Flat <br> - 2: Downsloping |
+| `ca` | Number of major vessels (0–3) colored by fluoroscopy |
+| `thal` | Thalassemia: <br> - 0: Normal <br> - 1: Fixed defect <br> - 2: Reversible defect |
+
+---
+
+**Target column:**
+- `0`: No Heart Disease
+- `1`: Presence of Heart Disease
+
+
 # Session state for model persistence
 if "model" not in st.session_state:
     st.session_state.model = None
