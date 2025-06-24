@@ -80,3 +80,4 @@ if st.sidebar.button("Train and Evaluate"):
 
 st.sidebar.markdown("---")
 st.sidebar.info("Upload 'heart.csv' in the same directory to run this app.")
+
