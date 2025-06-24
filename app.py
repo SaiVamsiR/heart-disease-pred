@@ -17,17 +17,22 @@ from sklearn.metrics import classification_report, accuracy_score
 
 warnings.filterwarnings("ignore")
 
+# Page setup
 st.set_page_config(page_title="Heart Disease Predictor", layout="wide")
 st.title("💓 Heart Disease Prediction App")
 
-# Load data
+# Session state to store model status
+if "model_trained" not in st.session_state:
+    st.session_state.model_trained = False
+
+# Load dataset
 @st.cache_data
 def load_data():
     return pd.read_csv("heart.csv")
 
 df = load_data()
 
-# Show data
+# Show data preview
 st.subheader("🔍 Dataset Preview")
 st.dataframe(df.head())
 
@@ -36,7 +41,7 @@ if st.checkbox("Show Data Info"):
     df.info(buf=buffer)
     st.text(buffer.getvalue())
 
-# Define categorical and continuous features
+# Feature types
 continuous_features = ['age', 'trestbps', 'chol', 'thalach', 'oldpeak']
 features_to_convert = [feature for feature in df.columns if feature not in continuous_features + ['target']]
 df[features_to_convert] = df[features_to_convert].astype('object')
@@ -47,7 +52,7 @@ y = df["target"]
 X = pd.get_dummies(X, drop_first=True)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Select model
+# Model selection
 st.subheader("🤖 Choose a Machine Learning Model")
 model_name = st.radio("Select Model", ["KNN", "SVM", "Decision Tree", "Random Forest"], horizontal=True)
 
@@ -57,6 +62,7 @@ pipe = Pipeline([
     ("clf", KNeighborsClassifier())
 ])
 
+# Set selected model
 if model_name == "KNN":
     pipe.set_params(clf=KNeighborsClassifier())
 elif model_name == "SVM":
@@ -70,6 +76,8 @@ elif model_name == "Random Forest":
 if st.button("Train Model"):
     with st.spinner("Training..."):
         pipe.fit(X_train, y_train)
+        st.session_state.model_trained = True
+
         y_pred = pipe.predict(X_test)
 
         st.success("✅ Training Complete")
@@ -93,12 +101,15 @@ for col in df.columns:
         input_data[col] = st.number_input(f"{col}", value=float(df[col].mean()))
 
 if st.button("Predict Heart Disease"):
-    input_df = pd.DataFrame([input_data])
-    input_df = pd.get_dummies(input_df)
-    input_df = input_df.reindex(columns=X.columns, fill_value=0)
-
-    prediction = pipe.predict(input_df)[0]
-    if prediction == 1:
-        st.error("⚠️ The model predicts the presence of heart disease.")
+    if not st.session_state.model_trained:
+        st.warning("⚠️ Please train the model first before making predictions.")
     else:
-        st.success("✅ The model predicts no heart disease.")
+        input_df = pd.DataFrame([input_data])
+        input_df = pd.get_dummies(input_df)
+        input_df = input_df.reindex(columns=X.columns, fill_value=0)
+
+        prediction = pipe.predict(input_df)[0]
+        if prediction == 1:
+            st.error("⚠️ The model predicts the presence of heart disease.")
+        else:
+            st.success("✅ The model predicts no heart disease.")
