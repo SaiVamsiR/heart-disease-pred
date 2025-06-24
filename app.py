@@ -21,7 +21,9 @@ warnings.filterwarnings("ignore")
 st.set_page_config(page_title="Heart Disease Predictor", layout="wide")
 st.title("💓 Heart Disease Prediction App")
 
-# Session state to store model status
+# Session state for model persistence
+if "model" not in st.session_state:
+    st.session_state.model = None
 if "model_trained" not in st.session_state:
     st.session_state.model_trained = False
 
@@ -76,9 +78,10 @@ elif model_name == "Random Forest":
 if st.button("Train Model"):
     with st.spinner("Training..."):
         pipe.fit(X_train, y_train)
+        st.session_state.model = pipe  # Save the trained model
         st.session_state.model_trained = True
 
-        y_pred = pipe.predict(X_test)
+        y_pred = st.session_state.model.predict(X_test)
 
         st.success("✅ Training Complete")
         st.subheader("📈 Accuracy")
@@ -108,7 +111,8 @@ if st.button("Predict Heart Disease"):
         input_df = pd.get_dummies(input_df)
         input_df = input_df.reindex(columns=X.columns, fill_value=0)
 
-        prediction = pipe.predict(input_df)[0]
+        prediction = st.session_state.model.predict(input_df)[0]
+
         if prediction == 1:
             st.error("⚠️ The model predicts the presence of heart disease.")
         else:
