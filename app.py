@@ -50,7 +50,7 @@ This application analyzes a well-known heart disease dataset and allows users to
 **Target column:**
 - `0`: No Heart Disease
 - `1`: Presence of Heart Disease
-
+""")
 
 # Session state for model persistence
 if "model" not in st.session_state:
