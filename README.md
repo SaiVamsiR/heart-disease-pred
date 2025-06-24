@@ -50,3 +50,38 @@ Each row represents a patient and contains 13 features + 1 target value.
 ---
 
 
+## 🧠 Model Training Process
+
+The project trains and evaluates multiple machine learning models:
+
+1. **Data Preprocessing**
+   - Handling missing values
+   - Encoding categorical features
+   - Scaling numeric features
+
+2. **Model Selection**
+   - Logistic Regression
+   - K-Nearest Neighbors (KNN)
+   - Support Vector Machine (SVM)
+   - Decision Tree
+   - Random Forest
+
+3. **Evaluation Metrics**
+   - Accuracy
+   - Precision
+   - Recall
+   - F1-score
+   - Confusion Matrix
+   - ROC Curve
+
+---
+
+## 🎮 Interactive Streamlit App
+
+A simple user interface is provided using Streamlit where users can:
+
+- 👁️ View the dataset
+- ⚙️ Train a model with a click
+- 📝 Input new patient data
+- 🩺 Predict heart disease likelihood instantly
+
