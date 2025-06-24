@@ -4,6 +4,8 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import warnings
+import io
+
 from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedKFold
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -13,52 +15,57 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, accuracy_score
 
+# Ignore warnings
 warnings.filterwarnings("ignore")
 
-st.title("Heart Disease Analysis App")
+# Page title
+st.set_page_config(page_title="Heart Disease Analysis", layout="wide")
+st.title("💓 Heart Disease Analysis and Prediction")
 
-# Load the data
+# Load dataset
 @st.cache_data
 def load_data():
     return pd.read_csv("heart.csv")
 
 df = load_data()
 
-st.subheader("Raw Data")
+# Display raw data
+st.subheader("🔍 Preview Data")
 st.dataframe(df.head())
 
+# Show info
 if st.checkbox("Show Data Info"):
-    buffer = []
+    buffer = io.StringIO()
     df.info(buf=buffer)
-    st.text("\n".join(buffer))
+    st.text(buffer.getvalue())
 
-# Feature Types
+# Feature categorization
 continuous_features = ['age', 'trestbps', 'chol', 'thalach', 'oldpeak']
-features_to_convert = [feature for feature in df.columns if feature not in continuous_features]
+features_to_convert = [feature for feature in df.columns if feature not in continuous_features + ['target']]
 df[features_to_convert] = df[features_to_convert].astype('object')
 
-# Sidebar for model selection
+# Sidebar - model selection
 st.sidebar.header("Model Selection")
-model_name = st.sidebar.selectbox("Choose Model", ["KNN", "SVM", "Decision Tree", "Random Forest"])
+model_name = st.sidebar.selectbox("Choose a model", ["KNN", "SVM", "Decision Tree", "Random Forest"])
 
-# Feature selection
+# Prepare features and target
 X = df.drop("target", axis=1)
 y = df["target"]
-
-# Dummy encoding
 X = pd.get_dummies(X, drop_first=True)
 
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Model training and evaluation
+# Train and evaluate model
 if st.sidebar.button("Train and Evaluate"):
-    with st.spinner("Training model..."):
+    st.subheader("🚀 Training Model")
+    with st.spinner("Training in progress..."):
         pipe = Pipeline([
             ("scaler", StandardScaler()),
-            ("clf", KNeighborsClassifier())
+            ("clf", KNeighborsClassifier())  # default
         ])
 
+        # Set model
         if model_name == "KNN":
             pipe.set_params(clf=KNeighborsClassifier())
         elif model_name == "SVM":
@@ -68,16 +75,18 @@ if st.sidebar.button("Train and Evaluate"):
         elif model_name == "Random Forest":
             pipe.set_params(clf=RandomForestClassifier())
 
+        # Fit and predict
         pipe.fit(X_train, y_train)
         y_pred = pipe.predict(X_test)
 
-        st.success("Model trained!")
-        st.subheader("Accuracy")
-        st.write(accuracy_score(y_test, y_pred))
+        # Output
+        st.success("✅ Model training completed!")
+        st.subheader("📈 Accuracy")
+        st.write(f"{accuracy_score(y_test, y_pred):.2f}")
 
-        st.subheader("Classification Report")
+        st.subheader("📋 Classification Report")
         st.text(classification_report(y_test, y_pred))
 
+# Sidebar footer
 st.sidebar.markdown("---")
-st.sidebar.info("Upload 'heart.csv' in the same directory to run this app.")
-
+st.sidebar.info("Ensure `heart.csv` is in the same folder to run the app.")
