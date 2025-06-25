@@ -9,7 +9,7 @@ This is an interactive **Streamlit web application** that predicts the presence 
 - 📊 **Explore dataset**: View patient health data and get detailed information on each feature.
 - 🧠 **Choose your model**: Train and evaluate different ML models like KNN, SVM, Decision Tree, and Random Forest.
 - ✍️ **Enter your own data**: Input patient information to get a real-time heart disease prediction.
-- ✅ **User-friendly UI**: No coding needed. Everything is point-and-click.
+- ✅ **User-friendly UI**: No coding needed. Everything is point-and-click. 
 
 ---
 
